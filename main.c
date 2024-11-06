@@ -19,7 +19,7 @@ void accountCreated(void);
 void logout(void);
 void clearScreen();
 void mainMenu();
-// Testa se tudo È n˙mero na data
+// Testa se tudo √© n√∫mero na data
 int isNumeric(const char *str);
 void getPassword(char *password, int maxLength);
 
@@ -69,8 +69,7 @@ struct userpass {
 int main()
 {
 	int choice;
-	int passwordLength;
-
+	
 	while (1) {
         mainMenu();
         scanf("%d", &choice);
@@ -102,7 +101,7 @@ void createAccount(void)
 	fp = fopen("username.txt", "ab");
 	if (fp == NULL) {
 	    perror("Error opening file");
-	    return;  // Saia da funÁ„o se o arquivo n„o puder ser aberto
+	    return;  // Saia da fun√ß√£o se o arquivo n√£o puder ser aberto
 	}
 
 	// Inputs
@@ -231,7 +230,7 @@ void login(void)
 	fp = fopen("username.txt", "rb");
 	if (fp == NULL) {
 	    perror("Error opening file");
-	    return;  // Saia da funÁ„o se o arquivo n„o puder ser aberto
+	    return;  // Saia da fun√ß√£o se o arquivo n√£o puder ser aberto
 	}
 
 	if (fp == NULL) {
@@ -306,7 +305,7 @@ void display(char username1[])
 	fp = fopen("username.txt", "rb");
 	if (fp == NULL) {
 	    perror("Error opening file");
-	    return;  // Saia da funÁ„o se o arquivo n„o puder ser aberto
+	    return;  // Saia da fun√ß√£o se o arquivo n√£o puder ser aberto
 	}
 	
 	struct user u1;
@@ -411,7 +410,7 @@ void transferMoney(void)
 	fp = fopen("username.txt", "rb");
 	if (fp == NULL) {
 	    perror("Error opening file");
-	    return;  // Saia da funÁ„o se o arquivo n„o puder ser aberto
+	    return;  // Saia da fun√ß√£o se o arquivo n√£o puder ser aberto
 	}
 
 	// Creating a another file
@@ -421,7 +420,7 @@ void transferMoney(void)
 	fp = fopen("money.txt", "ab");
 	if (fp == NULL) {
 	    perror("Error opening file");
-	    return;  // Saia da funÁ„o se o arquivo n„o puder ser aberto
+	    return;  // Saia da fun√ß√£o se o arquivo n√£o puder ser aberto
 	}
 
 	cursorPosition(33, 4);
@@ -615,7 +614,7 @@ void mainMenu() {
 void getPassword(char *password, int maxLength) {
 	int i = 0;
     char ch;
-    while (i < maxLength - 1) {  // Reserve espaÁo para '\0'
+    while (i < maxLength - 1) {  // Reserve espa√ßo para '\0'
         ch = getch();
         if (ch == '\r') {  // Enter key
             break;
