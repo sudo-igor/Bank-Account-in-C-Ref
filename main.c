@@ -1,32 +1,27 @@
 // C program to implement
 // the above approach
+#include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
-#include <ctype.h>
 
 // Declaring all the functions
-void checkBalance(char*);
-void transferMoney(void);
+void checkbalance(char*);
+void transfermoney(void);
 void display(char*);
 void person(char*);
 void login(void);
 void loginsu(void);
-void createAccount(void);
-void accountCreated(void);
-//void afterlogin(void);
+void account(void);
+void accountcreated(void);
+void afterlogin(void);
 void logout(void);
-void clearScreen();
-void mainMenu();
-// Testa se tudo é número na data
-int isNumeric(const char *str);
-void getPassword(char *password, int maxLength);
 
-// Declaring cursorPosition
+// Declaring gotoxy
 // function for setting
 // cursor position
-void cursorPosition (int x, int y)
+void gotoxy(int x, int y)
 {
 	COORD c;
 	c.X = x;
@@ -38,26 +33,24 @@ void cursorPosition (int x, int y)
 
 // Creating a structure to store
 // data of the user
-struct user {
+struct pass {
 	char username[50];
-	char date[3];
-	char month[3];
-	char year[5];
-	char phoneNumber[15];
-	char adharNumber[20];
-	char firstName[20];
-	char lastName[20];
-	char fatherName[20];
-	char motherName[20];
+	int date, month, year;
+	char pnumber[15];
+	char adharnum[20];
+	char fname[20];
+	char lname[20];
+	char fathname[20];
+	char mothname[20];
 	char address[50];
-	char typeAccount[20];
+	char typeaccount[20];
 };
 
 // Structure to keep track
 // of amount transfer
 struct money {
-	char usernameTo[50];
-	char userPersonFrom[50];
+	char usernameto[50];
+	char userpersonfrom[50];
 	long int money1;
 };
 
@@ -68,110 +61,124 @@ struct userpass {
 // Driver Code
 int main()
 {
-	int choice;
-	
-	while (1) {
-        mainMenu();
-        scanf("%d", &choice);
-        switch (choice) {
-            case 1: createAccount(); break;
-            case 2: login(); break;
-            case 3: exit(0); break;
-            default: printf("Invalid option. Try again.\n");
-        }
-    }
+	int i, a, b, choice;
+	int passwordlength;
+
+	gotoxy(20, 3);
+
+	// Creating a Main
+	// menu for the user
+	printf("WELCOME TO BANK ACCOUNT SYSTEM\n\n");
+	gotoxy(18, 5);
+
+	printf("**********************************");
+	gotoxy(25, 7);
+
+	printf("DEVELOPER-Naman kumar");
+
+	gotoxy(20, 10);
+	printf("1.... CREATE A BANK ACCOUNT");
+
+	gotoxy(20, 12);
+	printf("2.... ALREADY A USER? SIGN IN");
+	gotoxy(20, 14);
+	printf("3.... EXIT\n\n");
+
+	printf("\n\nENTER YOUR CHOICE..");
+
+	scanf("%d", &choice);
+
+	switch (choice) {
+	case 1:
+		system("cls");
+		printf("\n\n USERNAME 50 CHARACTERS MAX!!");
+		printf("\n\n PASSWORD 50 CHARACTERS MAX!!");
+		account();
+		break;
+
+	case 2:
+		login();
+		break;
+
+	case 3:
+		exit(0);
+		break;
+
+		getch();
+	}
 }
 
 // Function to create accounts
 // of users
-void createAccount(void)
+void account(void)
 {
 	char password[20];
-	int passwordLength, i, seek = 0;
+	int passwordlength, i, seek = 0;
 	char ch;
 	FILE *fp, *fu;
-	struct user u1;
+	struct pass u1;
 	struct userpass p1;
 
 	struct userpass u2;
-	
-	clearScreen();
+
 	// Opening file to
 	// write data of a user
 	fp = fopen("username.txt", "ab");
-	if (fp == NULL) {
-	    perror("Error opening file");
-	    return;  // Saia da função se o arquivo não puder ser aberto
-	}
 
 	// Inputs
+	system("cls");
 	printf("\n\n!!!!!CREATE ACCOUNT!!!!!");
 
 	printf("\n\nFIRST NAME..");
-	scanf("%20s", u1.firstName);
+	scanf("%s", &u1.fname);
 
 	printf("\n\n\nLAST NAME..");
-	scanf("%20s", u1.lastName);
+	scanf("%s", &u1.lname);
 
 	printf("\n\nFATHER's NAME..");
-	scanf("%20s", u1.fatherName);
+	scanf("%s", &u1.fathname);
 
 	printf("\n\nMOTHER's NAME..");
-	scanf("%20s", u1.motherName);
+	scanf("%s", &u1.mothname);
 
 	printf("\n\nADDRESS..");
-	scanf("%50s", u1.address);
+	scanf("%s", &u1.address);
 
-	printf("\n\nACCOUNT TYPE..");
-	scanf("%20s", u1.typeAccount);
+	printf("\n\nACCOUNT TYPE");
+	scanf("%s", &u1.typeaccount);
 
 	printf("\n\nDATE OF BIRTH..");
 	printf("\nDATE-");
-	do { 
-		scanf("%2s", u1.date);
-		if (!isNumeric(u1.date)) { 
-	        printf("Date is invalid, please input a valid number.\n"); 
-	    }
-	} while (!isNumeric(u1.date));
+	scanf("%d", &u1.date);
+	printf("\nMONTH-");
+	scanf("%d", &u1.month);
+	printf("\nYEAR-");
+	scanf("%d", &u1.year);
 
-	printf("\nMONTH: ");
-	do { 
-		scanf("%2s", u1.month);
-		if (!isNumeric(u1.month)) { 
-	        printf("Date is invalid, please input a valid number.\n"); 
-	    }
-	} while (!isNumeric(u1.month));
-	
-	printf("\nYEAR: ");
-	do { 
-		scanf("%4s", u1.year);
-		if (!isNumeric(u1.year)) { 
-	        printf("Date is invalid, please input a valid number.\n"); 
-	    }
-	} while (!isNumeric(u1.year));
+	printf("\n\nADHAR NUMBER");
+	scanf("%s", u1.adharnum);
 
-	printf("\n\nADHAR NUMBER..");
-	do { 
-		scanf("%20s", u1.adharNumber);
-		if (!isNumeric(u1.adharNumber)) { 
-	        printf("Adhar number is invalid, please input a valid number.\n"); 
-	    }
-	} while (!isNumeric(u1.adharNumber));
-
-	printf("\n\nPHONE NUMBER..");
-	do { 
-		scanf("%15s", u1.phoneNumber);
-		if (!isNumeric(u1.phoneNumber)) { 
-	        printf("Phone number is invalid, please input a valid number.\n"); 
-	    }
-	} while (!isNumeric(u1.phoneNumber));
+	printf("\n\nPHONE NUMBER");
+	scanf("%s", u1.pnumber);
 
 	printf("\n\nUSERNAME.. ");
-	scanf("%50s", u1.username);
+	scanf("%s", &u1.username);
 
-	printf("\n\nPASSWORD (max 50 characters): ");
-	getPassword(password, 50);
-	
+	printf("\n\nPASSWORD..");
+
+	// Taking password in the form of
+	// stars
+	for (i = 0; i < 50; i++) {
+		ch = getch();
+		if (ch != 13) {
+			password[i] = ch;
+			ch = '*';
+			printf("%c", ch);
+		}
+		else
+			break;
+	}
+
 	// Writing to the file
 	fwrite(&u1, sizeof(u1),
 		1, fp);
@@ -182,15 +189,15 @@ void createAccount(void)
 	// Calling another function
 	// after successful creation
 	// of account
-	accountCreated();
+	accountcreated();
 }
 
 // Successful account creation
-void accountCreated(void)
+void accountcreated(void)
 {
 	int i;
 	char ch;
-	clearScreen();
+	system("cls");
 	printf(
 		"PLEASE WAIT....\n\nYOUR DATA IS PROCESSING....");
 	for (i = 0; i < 200000000; i++) {
@@ -198,10 +205,10 @@ void accountCreated(void)
 		i--;
 	}
 
-	cursorPosition(30, 10);
+	gotoxy(30, 10);
 
 	printf("ACCOUNT CREATED SUCCESSFULLY....");
-	cursorPosition(0, 20);
+	gotoxy(0, 20);
 
 	printf("Press enter to login");
 
@@ -213,54 +220,62 @@ void accountCreated(void)
 // the username of the user
 void login(void)
 {
-	clearScreen();
+	system("cls");
 
 	char username[50];
 	char password[50];
 
-	int i;
-	int loginSuccessful = 0;
+	int i, j, k;
 	char ch;
 	FILE *fp, *fu;
-	struct user u1;
+	struct pass u1;
 	struct userpass u2;
 
 	// Opening file of
 	// user data
-	fp = fopen("username.txt", "rb");
-	if (fp == NULL) {
-	    perror("Error opening file");
-	    return;  // Saia da função se o arquivo não puder ser aberto
-	}
+	fp = fopen("username.txt",
+			"rb");
 
 	if (fp == NULL) {
 		printf("ERROR IN OPENING FILE");
 	}
-	cursorPosition(34, 2);
+	gotoxy(34, 2);
 	printf(" ACCOUNT LOGIN ");
-	cursorPosition(7, 5);
+	gotoxy(7, 5);
 	printf("***********************************************"
 		"********************************");
 
-	cursorPosition(35, 10);
+	gotoxy(35, 10);
 	printf("==== LOG IN ====");
 
 	// Take input
-	cursorPosition(35, 12);
+	gotoxy(35, 12);
 	printf("USERNAME.. ");
 	scanf("%s", &username);
 
-	cursorPosition(35, 14);
+	gotoxy(35, 14);
 	printf("PASSWORD..");
 
 	// Input the password
-	getPassword(password, 50);
+	for (i = 0; i < 50; i++) {
+		ch = getch();
+		if (ch != 13) {
+			password[i] = ch;
+			ch = '*';
+			printf("%c", ch);
+		}
+
+		else
+			break;
+	}
 
 	// Checking if username
 	// exists in the file or not
-	while (fread(&u1, sizeof(u1), 1, fp)) {
-		if (strcmp(username, u1.username) == 0) {
-			loginSuccessful = 1;
+	while (fread(&u1, sizeof(u1),
+				1, fp)) {
+		if (strcmp(username,
+				u1.username)
+			== 0) {
 			loginsu();
 			display(username);
 		}
@@ -268,9 +283,6 @@ void login(void)
 
 	// Closing the file
 	fclose(fp);
-	if (!loginSuccessful) {
-    	printf("\nUsername or password is incorrect.\n");
-	}
 }
 
 // Redirect after
@@ -279,17 +291,17 @@ void loginsu(void)
 {
 	int i;
 	FILE* fp;
-	struct user u1;
-	clearScreen();
+	struct pass u1;
+	system("cls");
 	printf("Fetching account details.....\n");
 	for (i = 0; i < 20000; i++) {
 		i++;
 		i--;
 	}
 
-	cursorPosition(30, 10);
+	gotoxy(30, 10);
 	printf("LOGIN SUCCESSFUL....");
-	cursorPosition(0, 20);
+	gotoxy(0, 20);
 	printf("Press enter to continue");
 
 	getch();
@@ -299,140 +311,138 @@ void loginsu(void)
 // data of the user on screen
 void display(char username1[])
 {
-	clearScreen();
+	system("cls");
 	FILE* fp;
 	int choice, i;
 	fp = fopen("username.txt", "rb");
-	if (fp == NULL) {
-	    perror("Error opening file");
-	    return;  // Saia da função se o arquivo não puder ser aberto
-	}
-	
-	struct user u1;
+	struct pass u1;
 
 	if (fp == NULL) {
 		printf("error in opening file");
 	}
 
-	while (fread(&u1, sizeof(u1), 1, fp)) {
-		if (strcmp(username1, u1.username) == 0) {
-			cursorPosition(30, 1);
+	while (fread(&u1, sizeof(u1),
+				1, fp)) {
+		if (strcmp(username1,
+				u1.username)
+			== 0) {
+			gotoxy(30, 1);
 			printf("WELCOME, %s %s",
-				u1.firstName, u1.lastName);
-			cursorPosition(28, 2);
+				u1.fname, u1.lname);
+			gotoxy(28, 2);
 			printf("..........................");
-			cursorPosition(55, 6);
+			gotoxy(55, 6);
 			printf("==== YOUR ACCOUNT INFO ====");
-			cursorPosition(55, 8);
+			gotoxy(55, 8);
 			printf("***************************");
-			cursorPosition(55, 10);
-			printf("NAME..%s %s", u1.firstName, u1.lastName);
+			gotoxy(55, 10);
+			printf("NAME..%s %s", u1.fname,
+				u1.lname);
 
-			cursorPosition(55, 12);
-			printf("FATHER's NAME..%s", u1.fatherName);
+			gotoxy(55, 12);
+			printf("FATHER's NAME..%s %s",
+				u1.fathname,
+				u1.lname);
 
-			cursorPosition(55, 14);
-			printf("MOTHER's NAME..%s", u1.motherName);
+			gotoxy(55, 14);
+			printf("MOTHER's NAME..%s",
+				u1.mothname);
 
-			cursorPosition(55, 16);
-			printf("ADHAR CARD NUMBER..%s", u1.adharNumber);
+			gotoxy(55, 16);
+			printf("ADHAR CARD NUMBER..%s",
+				u1.adharnum);
 
-			cursorPosition(55, 18);
-			printf("MOBILE NUMBER..%s", u1.phoneNumber);
+			gotoxy(55, 18);
+			printf("MOBILE NUMBER..%s",
+				u1.pnumber);
 
-			cursorPosition(55, 20);
-			printf("DATE OF BIRTH.. %s - %s - %s", u1.date, u1.month, u1.year);
+			gotoxy(55, 20);
+			printf("DATE OF BIRTH.. %d-%d-%d",
+				u1.date, u1.month, u1.year);
 
-			cursorPosition(55, 22);
+			gotoxy(55, 22);
 			printf("ADDRESS..%s", u1.address);
 
-			cursorPosition(55, 24);
-			printf("ACCOUNT TYPE..%s", u1.typeAccount);
+			gotoxy(55, 24);
+			printf("ACCOUNT TYPE..%s",
+				u1.typeaccount);
 		}
 	}
 
 	fclose(fp);
 
-	cursorPosition(0, 6);
+	gotoxy(0, 6);
 
 	// Menu to perform different
 	// actions by user
 	printf(" HOME ");
-	cursorPosition(0, 7);
+	gotoxy(0, 7);
 	printf("******");
-	cursorPosition(0, 9);
+	gotoxy(0, 9);
 	printf(" 1....CHECK BALANCE");
-	cursorPosition(0, 11);
+	gotoxy(0, 11);
 	printf(" 2....TRANSFER MONEY");
-	cursorPosition(0, 13);
+	gotoxy(0, 13);
 	printf(" 3....LOG OUT\n\n");
-	cursorPosition(0, 15);
+	gotoxy(0, 15);
 	printf(" 4....EXIT\n\n");
 
-	printf(" ENTER YOUR CHOICE..");
+	printf(" ENTER YOUR CHOICES..");
 	scanf("%d", &choice);
 
 	switch (choice) {
-		case 1:
-			checkBalance(username1);
-			break;
-	
-		case 2:
-			transferMoney();
-			break;
-	
-		case 3:
-			logout();
-			login();
-			break;
-	
-		case 4:
-			exit(0);
-			break;
-		}
+	case 1:
+		checkbalance(username1);
+		break;
+
+	case 2:
+		transfermoney();
+		break;
+
+	case 3:
+		logout();
+		login();
+		break;
+
+	case 4:
+		exit(0);
+		break;
+	}
 }
 
 // Function to transfer
 // money from one user to
 // another
-void transferMoney(void)
+void transfermoney(void)
 {
 	int i, j;
 	FILE *fm, *fp;
-	struct user u1;
+	struct pass u1;
 	struct money m1;
 	char usernamet[20];
 	char usernamep[20];
-	clearScreen();
+	system("cls");
 
 	// Opening file in read mode to
 	// read user's username
 	fp = fopen("username.txt", "rb");
-	if (fp == NULL) {
-	    perror("Error opening file");
-	    return;  // Saia da função se o arquivo não puder ser aberto
-	}
 
 	// Creating a another file
 	// to write amount along with
 	// username to which amount
 	// is going to be transferred
-	fp = fopen("money.txt", "ab");
-	if (fp == NULL) {
-	    perror("Error opening file");
-	    return;  // Saia da função se o arquivo não puder ser aberto
-	}
+	fm = fopen("mon.txt", "ab");
 
-	cursorPosition(33, 4);
+	gotoxy(33, 4);
 	printf("---- TRANSFER MONEY ----");
-	cursorPosition(33, 5);
+	gotoxy(33, 5);
 	printf("========================");
 
-	cursorPosition(33, 11);
+	gotoxy(33, 11);
 	printf("FROM (your username).. ");
 	scanf("%s", &usernamet);
 
-	cursorPosition(33, 13);
+	gotoxy(33, 13);
 	printf(" TO (username of person)..");
 	scanf("%s", &usernamep);
 
@@ -445,13 +455,13 @@ void transferMoney(void)
 		if (strcmp(usernamep,
 				u1.username)
 			== 0) {
-			strcpy(m1.usernameTo,
+			strcpy(m1.usernameto,
 				u1.username);
-			strcpy(m1.userPersonFrom,
+			strcpy(m1.userpersonfrom,
 				usernamet);
 		}
 	}
-	cursorPosition(33, 16);
+	gotoxy(33, 16);
 
 	// Taking amount input
 	printf("ENTER THE AMOUNT TO BE TRANSFERRED..");
@@ -461,20 +471,20 @@ void transferMoney(void)
 	fwrite(&m1, sizeof(m1),
 		1, fm);
 
-	cursorPosition(0, 26);
+	gotoxy(0, 26);
 	printf(
 		"--------------------------------------------------"
 		"--------------------------------------------");
 
-	cursorPosition(0, 28);
+	gotoxy(0, 28);
 	printf(
 		"--------------------------------------------------"
 		"--------------------------------------------");
 
-	cursorPosition(0, 29);
+	gotoxy(0, 29);
 	printf("transferring amount, Please wait..");
 
-	cursorPosition(10, 27);
+	gotoxy(10, 27);
 	for (i = 0; i < 70; i++) {
 		for (j = 0; j < 1200000; j++) {
 			j++;
@@ -483,7 +493,7 @@ void transferMoney(void)
 		printf("*");
 	}
 
-	cursorPosition(33, 40);
+	gotoxy(33, 40);
 	printf("AMOUNT SUCCESSFULLY TRANSFERRED....");
 	getch();
 
@@ -498,30 +508,30 @@ void transferMoney(void)
 
 // Function to check balance
 // in users account
-void checkBalance(char username2[])
+void checkbalance(char username2[])
 {
+	system("cls");
 	FILE* fm;
 	struct money m1;
 	char ch;
 	int i = 1, summoney = 0;
-	
-	clearScreen();
+
 	// Opening amount file record
-	fm = fopen("money.txt", "rb");
+	fm = fopen("mon.txt", "rb");
 
 	int k = 5, l = 10;
 	int m = 30, n = 10;
 	int u = 60, v = 10;
 
-	cursorPosition(30, 2);
+	gotoxy(30, 2);
 	printf("==== BALANCE DASHBOARD ====");
-	cursorPosition(30, 3);
+	gotoxy(30, 3);
 	printf("***************************");
-	cursorPosition(k, l);
+	gotoxy(k, l);
 	printf("S no.");
-	cursorPosition(m, n);
+	gotoxy(m, n);
 	printf("TRANSACTION ID");
-	cursorPosition(u, v);
+	gotoxy(u, v);
 	printf("AMOUNT");
 
 	// Reading username to
@@ -529,15 +539,15 @@ void checkBalance(char username2[])
 	while (fread(&m1, sizeof(m1),
 				1, fm)) {
 		if (strcmp(username2,
-				m1.usernameTo)
+				m1.usernameto)
 			== 0) {
-			cursorPosition(k, ++l);
+			gotoxy(k, ++l);
 			printf("%d", i);
 			i++;
-			cursorPosition(m, ++n);
-			printf("%s", m1.userPersonFrom);
+			gotoxy(m, ++n);
+			printf("%s", m1.userpersonfrom);
 
-			cursorPosition(u, ++v);
+			gotoxy(u, ++v);
 			printf("%d", m1.money1);
 			// Adding and
 			// finding total money
@@ -545,10 +555,10 @@ void checkBalance(char username2[])
 		}
 	}
 
-	cursorPosition(80, 10);
+	gotoxy(80, 10);
 	printf("TOTAL AMOUNT");
 
-	cursorPosition(80, 12);
+	gotoxy(80, 12);
 	printf("%d", summoney);
 
 	getch();
@@ -564,8 +574,8 @@ void checkBalance(char username2[])
 void logout(void)
 {
 	int i, j;
-	clearScreen();
-	printf("Please wait, logging out");
+	system("cls");
+	printf("please wait, logging out");
 
 	for (i = 0; i < 10; i++) {
 		for (j = 0; j < 25000000; j++) {
@@ -575,58 +585,12 @@ void logout(void)
 		printf(".");
 	}
 
-	cursorPosition(30, 10);
+	gotoxy(30, 10);
 	printf("Sign out successfully..\n");
 
-	cursorPosition(0, 20);
-	printf("Press any key to continue..");
+	gotoxy(0, 20);
+	printf("press any key to continue..");
 
 	getch();
-}
-
-int isNumeric(const char *str) { 
-    while (*str) { 
-        if (!isdigit(*str)) { 
-            return 0; // Not a number 
-        } 
-        str++; 
-    } 
-    return 1; // All characters are digits 
-} 
-
-void clearScreen() {
-	#ifdef _WIN32
-	    system("cls");  // Windows
-	#else
-	    system("clear");  // Unix/Linux/Mac
-	#endif
-}
-
-void mainMenu() {
-    clearScreen();
-    printf("WELCOME TO BANK ACCOUNT SYSTEM\n\n");
-    printf("1.... CREATE A BANK ACCOUNT\n");
-    printf("2.... ALREADY A USER? SIGN IN\n");
-    printf("3.... EXIT\n\n");
-    printf("ENTER YOUR CHOICE: ");
-}
-
-void getPassword(char *password, int maxLength) {
-	int i = 0;
-    char ch;
-    while (i < maxLength - 1) {  // Reserve espaço para '\0'
-        ch = getch();
-        if (ch == '\r') {  // Enter key
-            break;
-        }
-        if (ch == '\b' && i > 0) {  // Backspace key
-            printf("\b \b");
-            i--;
-            continue;
-        }
-        password[i++] = ch;
-        printf("*");
-    }
-    password[i] = '\0';
 }
 
